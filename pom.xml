@@ -5,7 +5,7 @@
 	<groupId>com.mycompany</groupId>
 	<artifactId>package</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<packaging>maven-azure-deployment</packaging>
+	<packaging>mule-application</packaging>
 
 	<name>package</name>
 
@@ -32,16 +32,16 @@
 				<configuration>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<username>${username}</username>
-						<password>${password}</password>
+						<username>agnelr</username>
+						<password>Nous@1234</password>
 						<muleVersion>4.4.0</muleVersion>
 						<applicationName>maven-azure-deployment</applicationName>
 						<workers>1</workers>
-						<environment>${env}</environment>
+						<environment>Dev</environment>
 						<workerType>MICRO</workerType>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
-							<env>${env}</env>
+							<env>Dev</env>
 						</properties>
 					</cloudHubDeployment>
 				</configuration>
