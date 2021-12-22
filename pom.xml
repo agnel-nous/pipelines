@@ -32,16 +32,16 @@
 				<configuration>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
-						<username>agnelr</username>
-						<password>Nous@1234</password>
+						<username>${username}</username>
+						<password>${password}</password>
 						<muleVersion>4.4.0</muleVersion>
 						<applicationName>maven-azure-deployment</applicationName>
 						<workers>1</workers>
-						<environment>Dev</environment>
+						<environment>${env}</environment>
 						<workerType>MICRO</workerType>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
-							<env>Dev</env>
+							<env>${env}</env>
 						</properties>
 					</cloudHubDeployment>
 				</configuration>
