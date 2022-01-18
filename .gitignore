@@ -21,6 +21,7 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
+bitbucket-pipelines.yml
 .settings/
 .loadpath
 .project
