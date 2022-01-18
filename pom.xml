@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mycompany</groupId>
-	<artifactId>package</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<artifactId>releasepipeline</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
-	<name>package</name>
+	<name>releasepipeline</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,6 +15,7 @@
 
 		<app.runtime>4.4.0</app.runtime>
 		<mule.maven.plugin.version>3.5.2</mule.maven.plugin.version>
+		<munit.version>2.3.6</munit.version>
 	</properties>
 
 	<build>
@@ -27,23 +28,66 @@
 			<plugin>
 				<groupId>org.mule.tools.maven</groupId>
 				<artifactId>mule-maven-plugin</artifactId>
-				<version>${mule.maven.plugin.version}</version>
+				<version>3.5.2</version>
 				<extensions>true</extensions>
 				<configuration>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com</uri>
+						<muleVersion>${muleVersion}</muleVersion>
 						<username>${username}</username>
 						<password>${password}</password>
-						<muleVersion>4.4.0</muleVersion>
-						<applicationName>maven-azure-deployment</applicationName>
-						<workers>1</workers>
-						<environment>${env}</environment>
-						<workerType>MICRO</workerType>
+						<applicationName>releasepipeline-${environment}</applicationName>
+						<environment>${environment}</environment>
+						<workers>${workers}</workers>
+						<workerType>${workerType}</workerType>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
-							<env>${env}</env>
+							<environment>${environment}</environment>
 						</properties>
 					</cloudHubDeployment>
+					<coverage>
+            			<runCoverage>true</runCoverage>
+            			<failBuild>false</failBuild>
+
+            			<requiredApplicationCoverage>75</requiredApplicationCoverage>
+            			<requiredResourceCoverage>50</requiredResourceCoverage>
+            			<requiredFlowCoverage>50</requiredFlowCoverage>
+
+            			<formats>
+                			<format>console</format>
+                			<format>html</format>
+            			</formats>
+        			</coverage>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.mulesoft.munit.tools</groupId>
+				<artifactId>munit-maven-plugin</artifactId>
+				<version>${munit.version}</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+							<goal>coverage-report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<coverage>
+						<runCoverage>true</runCoverage>
+            			<failBuild>false</failBuild>
+
+            			<requiredApplicationCoverage>75</requiredApplicationCoverage>
+            			<requiredResourceCoverage>50</requiredResourceCoverage>
+            			<requiredFlowCoverage>50</requiredFlowCoverage>
+
+            			<formats>
+                			<format>console</format>
+                			<format>html</format>
+            			</formats>
+            		</coverage>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -57,10 +101,30 @@
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>org.mule.connectors</groupId>
-			<artifactId>mule-sockets-connector</artifactId>
-			<version>1.2.2</version>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-apikit-module</artifactId>
+			<version>1.5.5</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-runner</artifactId>
+			<version>2.3.6</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-tools</artifactId>
+			<version>2.3.6</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>assertions</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
