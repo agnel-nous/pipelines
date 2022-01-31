@@ -1,0 +1,39 @@
+image: maven:3.5.2
+
+pipelines:
+  branches:
+    master:    
+      - step:
+          name: Git Security Scan
+          caches:
+            - maven
+          script:
+            - pipe: atlassian/git-secrets-scan:0.5.1  
+
+      - step:
+          name: Deploy to Dev CloudHub
+          deployment: Dev
+          trigger: manual
+          caches:
+            - maven
+          script:          
+            - mvn -B clean -DskipTests deploy -DmuleDeploy -DmuleVersion=$muleVersion -Dusername=$username -Dpassword=$password -Denv=$env -Dworkers=$workers -DworkerType=$workerType -Dproperties=$properties
+      
+      - step:
+          name: Deploy to uat CloudHub
+          deployment: uat
+          trigger: manual
+          caches:
+            - maven
+          script:          
+            - mvn -B clean -DskipTests deploy -DmuleDeploy -DmuleVersion=$muleVersion -Dusername=$username -Dpassword=$password -Denv=$env -Dworkers=$workers -DworkerType=$workerType -Dproperties=$properties
+            
+      - step:
+          name: Deploy to prod CloudHub
+          deployment: prod
+          trigger: manual
+          caches:
+            - maven
+          script:          
+            - mvn -B clean -DskipTests deploy -DmuleDeploy -DmuleVersion=$muleVersion -Dusername=$username -Dpassword=$password -Denv=$env -Dworkers=$workers -DworkerType=$workerType -Dproperties=$properties
+
